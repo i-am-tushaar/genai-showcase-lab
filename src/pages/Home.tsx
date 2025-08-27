@@ -3,34 +3,26 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import heroImage from "@/assets/hero-bg.jpg";
-
 const Home = () => {
-  const skills = [
-    {
-      icon: Brain,
-      title: "Deep Learning",
-      description: "Advanced neural networks, computer vision, and NLP models",
-    },
-    {
-      icon: Code,
-      title: "MLOps",
-      description: "End-to-end ML pipelines, deployment, and monitoring",
-    },
-    {
-      icon: Zap,
-      title: "AI Agents",
-      description: "Autonomous AI systems and agentic workflows",
-    },
-  ];
-
-  return (
-    <div className="min-h-screen">
+  const skills = [{
+    icon: Brain,
+    title: "Deep Learning",
+    description: "Advanced neural networks, computer vision, and NLP models"
+  }, {
+    icon: Code,
+    title: "MLOps",
+    description: "End-to-end ML pipelines, deployment, and monitoring"
+  }, {
+    icon: Zap,
+    title: "AI Agents",
+    description: "Autonomous AI systems and agentic workflows"
+  }];
+  return <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        >
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
+        backgroundImage: `url(${heroImage})`
+      }}>
           <div className="absolute inset-0 bg-background/40" />
         </div>
         
@@ -39,9 +31,7 @@ const Home = () => {
             AI Engineer
             <span className="block text-gradient">& ML Expert</span>
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            5+ years crafting intelligent systems with Deep Learning, MLOps, and Agentic AI
-          </p>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">5+ years crafting intelligent systems with Machine Learning, Deep Learning, MLOps, AI Agents and Agentic AI</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="gradient-primary">
               <Link to="/projects">
@@ -62,18 +52,13 @@ const Home = () => {
             Expertise Areas
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {skills.map((skill, index) => (
-              <Card
-                key={index}
-                className="p-6 text-center group hover:scale-105 transition-all duration-300 bg-card/50 backdrop-blur-sm border-border/50"
-              >
+            {skills.map((skill, index) => <Card key={index} className="p-6 text-center group hover:scale-105 transition-all duration-300 bg-card/50 backdrop-blur-sm border-border/50">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full gradient-primary flex items-center justify-center">
                   <skill.icon className="h-8 w-8 text-primary-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">{skill.title}</h3>
                 <p className="text-muted-foreground">{skill.description}</p>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -94,8 +79,6 @@ const Home = () => {
           </Button>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Home;

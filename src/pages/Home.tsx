@@ -31,7 +31,7 @@ const Home = () => {
             AI Engineer
             <span className="block text-gradient">& ML Expert</span>
           </h1>
-          <p className="text-xl md:text-2xl text-foreground/80 mb-8 max-w-2xl mx-auto">5+ years crafting intelligent systems with Machine Learning, Deep Learning, MLOps, AI Agents and Agentic AI</p>
+          <p className="text-xl md:text-2xl text-foreground/80 mb-8 max-w-2xl mx-auto">AI Engineer | 5+ yrs ML & MLOps | Deep Learning | GenAI | AI Agents | Agentic AI | End-to-End LLMOps</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="gradient-primary">
               <Link to="/projects">

@@ -58,12 +58,12 @@ const Contact = () => {
     {
       icon: Linkedin,
       label: "LinkedIn",
-      href: "https://www.linkedin.com/in/aiengineer",
+      href: "https://www.linkedin.com/in/tushar-choudhary-401b1a262/",
     },
     {
       icon: Github,
       label: "GitHub",
-      href: "https://github.com/aiengineer",
+      href: "https://github.com/i-am-tushaar",
     },
     {
       icon: Twitter,

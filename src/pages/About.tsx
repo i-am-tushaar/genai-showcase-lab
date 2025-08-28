@@ -26,9 +26,22 @@ const About = () => {
   ];
 
   const skills = [
-    "Python", "TensorFlow", "PyTorch", "Kubernetes", "Docker", "MLflow",
-    "Airflow", "AWS", "GCP", "Azure", "Transformers", "LangChain",
-    "Vector Databases", "CI/CD", "Monitoring", "A/B Testing"
+    { name: "Python", url: "https://www.python.org/" },
+    { name: "TensorFlow", url: "https://www.tensorflow.org/" },
+    { name: "PyTorch", url: "https://pytorch.org/" },
+    { name: "Kubernetes", url: "https://kubernetes.io/" },
+    { name: "Docker", url: "https://www.docker.com/" },
+    { name: "MLflow", url: "https://mlflow.org/" },
+    { name: "Airflow", url: "https://airflow.apache.org/" },
+    { name: "AWS", url: "https://aws.amazon.com/" },
+    { name: "GCP", url: "https://cloud.google.com/" },
+    { name: "Azure", url: "https://azure.microsoft.com/" },
+    { name: "Transformers", url: "https://huggingface.co/transformers/" },
+    { name: "LangChain", url: "https://python.langchain.com/" },
+    { name: "Vector Databases", url: "https://www.pinecone.io/" },
+    { name: "CI/CD", url: "https://github.com/features/actions" },
+    { name: "Monitoring", url: "https://prometheus.io/" },
+    { name: "A/B Testing", url: "https://www.optimizely.com/" }
   ];
 
   const achievements = [
@@ -96,13 +109,20 @@ const About = () => {
           <h2 className="text-3xl font-bold text-center mb-12">Technical Skills</h2>
           <div className="flex flex-wrap gap-3 justify-center">
             {skills.map((skill, index) => (
-              <Badge
+              <a
                 key={index}
-                variant="secondary"
-                className="px-4 py-2 text-sm hover:bg-primary hover:text-primary-foreground transition-colors"
+                href={skill.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block"
               >
-                {skill}
-              </Badge>
+                <Badge
+                  variant="secondary"
+                  className="px-4 py-2 text-sm hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
+                >
+                  {skill.name}
+                </Badge>
+              </a>
             ))}
           </div>
         </section>

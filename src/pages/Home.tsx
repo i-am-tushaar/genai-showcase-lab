@@ -52,13 +52,20 @@ const Home = () => {
             Expertise Areas
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {skills.map((skill, index) => <Card key={index} className="p-6 text-center group hover:scale-105 transition-all duration-300 bg-card/50 backdrop-blur-sm border-border/50">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full gradient-primary flex items-center justify-center">
-                  <skill.icon className="h-8 w-8 text-primary-foreground" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">{skill.title}</h3>
-                <p className="text-muted-foreground">{skill.description}</p>
-              </Card>)}
+            {skills.map((skill, index) => (
+              <Card key={index} className="p-6 text-center group hover:scale-105 transition-all duration-300 bg-card/50 backdrop-blur-sm border-border/50 cursor-pointer">
+                <a
+                  href="/projects"
+                  className="block"
+                >
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full gradient-primary flex items-center justify-center">
+                    <skill.icon className="h-8 w-8 text-primary-foreground" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">{skill.title}</h3>
+                  <p className="text-muted-foreground">{skill.description}</p>
+                </a>
+              </Card>
+            ))}
           </div>
         </div>
       </section>

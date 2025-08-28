@@ -43,13 +43,13 @@ const Contact = () => {
     {
       icon: Phone,
       label: "Phone",
-      value: "+1 (555) 123-4567",
-      href: "tel:+15551234567",
+      value: "+91-8604076161",
+      href: "tel:+91-8604076161",
     },
     {
       icon: MapPin,
       label: "Location",
-      value: "San Francisco, CA",
+      value: "Lucknow, UP",
       href: "#",
     },
   ];

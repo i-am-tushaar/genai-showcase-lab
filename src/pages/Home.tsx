@@ -1,4 +1,4 @@
-import { ArrowRight, Brain, Code, Zap } from "lucide-react";
+import { ArrowRight, Brain, Code, Zap, Cloud, Database, Layers } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -6,16 +6,34 @@ import heroImage from "@/assets/hero-bg.jpg";
 const Home = () => {
   const skills = [{
     icon: Brain,
-    title: "Deep Learning",
-    description: "Advanced neural networks, computer vision, and NLP models"
-  }, {
-    icon: Code,
-    title: "MLOps",
-    description: "End-to-end ML pipelines, deployment, and monitoring"
+    title: "AI/ML & Deep Learning",
+    description: "CNNs, LSTMs, Transformers, Computer Vision, NLP, Advanced Neural Networks",
+    link: "https://pytorch.org/docs/"
   }, {
     icon: Zap,
-    title: "AI Agents",
-    description: "Autonomous AI systems and agentic workflows"
+    title: "Generative AI & RAG",
+    description: "LangChain, LangGraph, CrewAI, AutoGen, Agentic AI, Knowledge Graphs",
+    link: "https://docs.langchain.com/"
+  }, {
+    icon: Code,
+    title: "MLOps & LLMOps",
+    description: "CI/CD, Model Monitoring, MLflow, Kubeflow, Weights & Biases, Ray",
+    link: "https://mlflow.org/docs/"
+  }, {
+    icon: Cloud,
+    title: "Cloud & Infrastructure", 
+    description: "AWS, GCP, Azure, Docker, Kubernetes, Airflow, Prefect",
+    link: "https://docs.aws.amazon.com/machine-learning/"
+  }, {
+    icon: Database,
+    title: "Data & Databases",
+    description: "SQL, NoSQL, Vector DBs (Pinecone, Weaviate, FAISS), Neo4j",
+    link: "https://docs.pinecone.io/"
+  }, {
+    icon: Layers,
+    title: "Frameworks & Tools",
+    description: "PyTorch, TensorFlow, HuggingFace, OpenAI APIs, FastAPI, Scikit-learn",
+    link: "https://huggingface.co/docs"
   }];
   return <div className="min-h-screen">
       {/* Hero Section */}
@@ -51,11 +69,13 @@ const Home = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Expertise Areas
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {skills.map((skill, index) => (
               <Card key={index} className="p-6 text-center group hover:scale-105 transition-all duration-300 bg-card/50 backdrop-blur-sm border-border/50 cursor-pointer">
                 <a
-                  href="/projects"
+                  href={skill.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="block"
                 >
                   <div className="w-16 h-16 mx-auto mb-4 rounded-full gradient-primary flex items-center justify-center">

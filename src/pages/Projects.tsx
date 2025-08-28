@@ -10,7 +10,7 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
-      title: "Neural Vision Analytics",
+      title: "End-to-End LLMOps Platform",
       description:
         "Advanced computer vision system using transformer architectures for real-time object detection and analysis. Achieved 98.5% accuracy on custom datasets.",
       image: project1,

@@ -22,7 +22,7 @@ const Projects = () => {
     },
     {
       id: 2,
-      title: "MLOps Pipeline Platform",
+      title: "Autonomous Data Pipeline with MLOps",
       description:
         "End-to-end MLOps platform enabling automated model training, validation, deployment, and monitoring with A/B testing capabilities.",
       image: project2,

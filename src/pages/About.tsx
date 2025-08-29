@@ -6,61 +6,22 @@ import profileImage from "@/assets/profile-placeholder.jpg";
 const About = () => {
   const experience = [
     {
-      year: "Nov 2022 – Present",
-      role: "Freelance Data Scientist / AI Consultant",
-      company: "UpWork",
-      description: "Delivered end-to-end ML and GenAI solutions for clients in retail, e-commerce, and finance, enhancing decision-making and boosting revenues.",
-      achievements: [
-        "Built predictive models for sales forecasting, fraud detection, and customer segmentation using Python (Scikit-learn, TensorFlow, XGBoost), resulting in 10–15% revenue growth",
-        "Designed RAG-powered NLP pipelines for social media analytics, increasing sentiment analysis accuracy by 22%",
-        "Developed interactive AI dashboards (Streamlit, Power BI) for real-time insights, improving visualization accuracy by 25%"
-      ],
-      keyProjects: [
-        {
-          title: "AI-Powered Demand Forecasting for E-Commerce",
-          description: "Built a time-series ML pipeline (XGBoost, Prophet) that improved demand prediction accuracy by 18%, optimizing inventory planning and reducing stockouts"
-        },
-        {
-          title: "Customer Segmentation & Personalization in Retail",
-          description: "Applied clustering (K-Means, DBSCAN) and RFM analysis to segment customers, enabling targeted campaigns that increased retention by 12%"
-        },
-        {
-          title: "Fraud Detection System for FinTech Client",
-          description: "Developed anomaly detection and classification models using Python + Scikit-learn, reducing false positives in fraud detection by 20%"
-        },
-        {
-          title: "NLP-driven Social Media & Review Analytics",
-          description: "Designed a RAG-powered sentiment and topic analysis pipeline, improving brand monitoring accuracy by 22% and guiding marketing strategy"
-        },
-        {
-          title: "Interactive AI Dashboards (Streamlit + Power BI)",
-          description: "Delivered real-time BI dashboards for retail and finance clients, providing actionable insights that accelerated decision-making by 30%"
-        }
-      ]
+      year: "2019-Present",
+      role: "Senior AI Engineer",
+      company: "Tech Innovation Corp",
+      description: "Leading AI initiatives, implementing MLOps pipelines, and developing production-ready ML systems.",
     },
     {
-      year: "Oct 2019 – Sep 2022",
-      role: "Sr. Representative, Operations",
-      company: "Concentrix Daksh Services India Pvt Ltd, Gurugram",
-      description: "Developed real-time reporting dashboards and optimized workforce operations through data-driven insights.",
-      achievements: [
-        "Developed real-time reporting dashboards in Power BI to track key workforce performance metrics, driving a 10% improvement in team productivity",
-        "Optimized workforce scheduling by analyzing demand patterns and trends, increasing service level adherence by 18%",
-        "Leveraged advanced Excel functions (VLOOKUP, Pivot Tables, formulas) to automate reporting and streamline analytics, reducing manual work by 2 hours per week and improving workflow efficiency by 20%",
-        "Provided actionable insights to support data-driven decision-making across operations teams"
-      ]
+      year: "2017-2019",
+      role: "ML Engineer",
+      company: "Data Solutions Ltd",
+      description: "Built deep learning models for computer vision and NLP applications with 95% accuracy improvements.",
     },
     {
-      year: "Feb 2017 – Mar 2019",
-      role: "Data Analyst, Content Engineering",
-      company: "GlobalLogic Technologies Limited, Gurugram",
-      description: "Conducted large-scale data analysis and built automated BI dashboards to improve operational efficiency.",
-      achievements: [
-        "Conducted large-scale data analysis using SQL and Python, improving operational efficiency by 15%",
-        "Built and automated BI dashboards (Power BI + DAX + SQL) for data accuracy and KPIs tracking",
-        "Spearheaded DAX-driven advanced analytics improving analysis efficiency by 50%",
-        "Collaborated with engineers on data workflows that enabled integration of predictive models in later phases"
-      ]
+      year: "2015-2017",
+      role: "Data Scientist",
+      company: "Analytics Startup",
+      description: "Developed predictive models and data pipelines for early-stage AI products.",
     },
   ];
 
@@ -104,11 +65,9 @@ const About = () => {
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">About Me</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            AI Engineer with 5+ years of experience delivering Machine Learning, Deep Learning, Generative AI, and Agentic AI solutions.
-            
+            AI Engineer with 5+ years of experience delivering Machine Learning, Deep Learning, Generative AI, and Agentic AI solutions. 
             Proven expertise in MLOps and LLMOps for end-to-end ML/LLM pipelines including data ingestion, model training, RAG, deployment, monitoring, and governance. 
             Skilled at building multi-agent systems, predictive pipelines, and domain-specific GenAI applications. 
-            
             Strong track record of reducing costs, improving accuracy, and scaling AI systems in production environments.
           </p>
         </section>
@@ -126,48 +85,20 @@ const About = () => {
           </div>
         </section>
 
+        {/* Experience Timeline */}
         <section className="py-16">
           <h2 className="text-3xl font-bold text-center mb-12">Professional Journey</h2>
           <div className="space-y-8">
             {experience.map((exp, index) => (
               <Card key={index} className="p-6 bg-card/50 backdrop-blur-sm">
-                <div className="flex flex-col gap-4">
-                  <div className="flex flex-col md:flex-row md:items-start gap-4">
-                    <Badge variant="outline" className="w-fit text-primary border-primary">
-                      {exp.year}
-                    </Badge>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold mb-1">{exp.role}</h3>
-                      <p className="text-primary font-semibold mb-3">{exp.company}</p>
-                      <p className="text-muted-foreground mb-4">{exp.description}</p>
-                      
-                      {exp.achievements && (
-                        <div className="mb-4">
-                          <ul className="space-y-2">
-                            {exp.achievements.map((achievement, achIndex) => (
-                              <li key={achIndex} className="flex items-start gap-2">
-                                <span className="text-primary mt-2">•</span>
-                                <span className="text-sm text-muted-foreground">{achievement}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      
-                      {exp.keyProjects && (
-                        <div>
-                          <h4 className="text-lg font-semibold mb-3 text-primary">Key Projects:</h4>
-                          <div className="space-y-3">
-                            {exp.keyProjects.map((project, projIndex) => (
-                              <div key={projIndex} className="border-l-2 border-primary/30 pl-4">
-                                <h5 className="font-semibold mb-1">{project.title}</h5>
-                                <p className="text-sm text-muted-foreground">{project.description}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                <div className="flex flex-col md:flex-row md:items-center gap-4">
+                  <Badge variant="outline" className="w-fit text-primary border-primary">
+                    {exp.year}
+                  </Badge>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold mb-1">{exp.role}</h3>
+                    <p className="text-primary mb-2">{exp.company}</p>
+                    <p className="text-muted-foreground">{exp.description}</p>
                   </div>
                 </div>
               </Card>

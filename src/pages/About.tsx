@@ -16,7 +16,7 @@ const About = () => {
     },
     {
       year: "2017-2019",
-      role: "Data Analyst, Content Engineering ",
+      role: "ML Engineer",
       company: "Data Solutions Ltd",
       description: "Built deep learning models for computer vision and NLP applications with 95% accuracy improvements.",
     },

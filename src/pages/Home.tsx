@@ -5,34 +5,39 @@ import { Card } from "@/components/ui/card";
 import heroImage from "@/assets/hero-bg.jpg";
 const Home = () => {
   const skills = [{
-    icon: Brain,
-    title: "AI/ML & Deep Learning",
-    description: "CNNs, LSTMs, Transformers, Computer Vision, NLP, Advanced Neural Networks",
-    link: "https://pytorch.org/docs/"
-  }, {
     icon: Zap,
-    title: "Generative AI & RAG",
-    description: "LangChain, LangGraph, CrewAI, AutoGen, Agentic AI, Knowledge Graphs",
+    title: "🤝 Generative AI & Agentic AI",
+    description: "LangChain, LangGraph, LangFlow, Multi-Agent Systems, RAG, Knowledge Graphs, AI Automation",
     link: "https://docs.langchain.com/"
   }, {
     icon: Code,
-    title: "MLOps & LLMOps",
-    description: "CI/CD, Model Monitoring, MLflow, Kubeflow, Weights & Biases, Ray",
+    title: "🔮 LLMOps & Advanced MLOps",
+    description: "End-to-End LLM Pipelines | Prompt Engineering | CI/CD (GitHub Actions 🚀) | MLflow 📈 | DVC 📂 | Docker 🐳 | DagsHub 🌟 | Model Monitoring & Drift Detection",
     link: "https://mlflow.org/docs/"
   }, {
+    icon: Brain,
+    title: "🧠 AI/ML & Deep Learning",
+    description: "Regression, Classification, Clustering | CNNs, RNNs, LSTM, Transformers | GANs, Diffusion Models | Computer Vision, Predictive Modeling",
+    link: "https://pytorch.org/docs/"
+  }, {
+    icon: Brain,
+    title: "🗣️ Natural Language Processing (NLP)",
+    description: "Text Classification, Sentiment Analysis, Summarization, Conversational AI, NER, RAG-powered NLP Pipelines",
+    link: "https://huggingface.co/docs"
+  }, {
     icon: Cloud,
-    title: "Cloud & Infrastructure", 
-    description: "AWS, GCP, Azure, Docker, Kubernetes, Airflow, Prefect",
+    title: "☁️ Cloud & Infrastructure", 
+    description: "AWS ☁️ | GCP 🌐 | Azure 🔷 | Docker 🐳 | Kubernetes | Airflow | Prefect | GitHub 🐙 CI/CD",
     link: "https://docs.aws.amazon.com/machine-learning/"
   }, {
     icon: Database,
-    title: "Data & Databases",
-    description: "SQL, NoSQL, Vector DBs (Pinecone, Weaviate, FAISS), Neo4j",
+    title: "📊 Data & Analytics",
+    description: "SQL | Pandas | NumPy | Matplotlib | Seaborn | Power BI | Streamlit 📊 | KPI Reporting | Data Cleaning & EDA",
     link: "https://docs.pinecone.io/"
   }, {
     icon: Layers,
-    title: "Frameworks & Tools",
-    description: "PyTorch, TensorFlow, HuggingFace, OpenAI APIs, FastAPI, Scikit-learn",
+    title: "🖥️ Frameworks & Tools",
+    description: "PyTorch 🔥 | TensorFlow 🔶 | Hugging Face 🤗 | Scikit-learn | FastAPI ⚡ | Flask | Django | HTML, CSS, Markdown, JSON, XML",
     link: "https://huggingface.co/docs"
   }];
   return <div className="min-h-screen">

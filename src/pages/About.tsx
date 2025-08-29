@@ -65,8 +65,10 @@ const About = () => {
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">About Me</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Passionate AI Engineer with 5+ years of experience transforming complex data into 
-            intelligent solutions. Specialized in end-to-end ML systems, from research to production.
+            AI Engineer with 5+ years of experience delivering Machine Learning, Deep Learning, Generative AI, and Agentic AI solutions. 
+            Proven expertise in MLOps and LLMOps for end-to-end ML/LLM pipelines including data ingestion, model training, RAG, deployment, monitoring, and governance. 
+            Skilled at building multi-agent systems, predictive pipelines, and domain-specific GenAI applications. 
+            Strong track record of reducing costs, improving accuracy, and scaling AI systems in production environments.
           </p>
         </section>
 

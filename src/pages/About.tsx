@@ -175,26 +175,148 @@ const About = () => {
           </div>
         </section>
 
-        {/* Skills */}
+        {/* Skills Showcase */}
         <section className="py-16">
-          <h2 className="text-3xl font-bold text-center mb-12">Technical Skills</h2>
-          <div className="flex flex-wrap gap-3 justify-center">
-            {skills.map((skill, index) => (
-              <a
-                key={index}
-                href={skill.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block"
-              >
-                <Badge
-                  variant="secondary"
-                  className="px-4 py-2 text-sm hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
-                >
-                  {skill.name}
-                </Badge>
-              </a>
-            ))}
+          <h2 className="text-3xl font-bold text-center mb-12">Skills Showcase</h2>
+          
+          {/* Core AI Skills */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <Card className="p-6 bg-gradient-to-br from-card/80 to-muted/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+              <div className="flex items-start gap-3 mb-3">
+                <span className="text-2xl">🧠</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary">Generative AI & Agentic AI</h3>
+                  <p className="text-sm text-muted-foreground">Multi-Agent Systems | Domain-Specific GenAI | AI Automation | Knowledge Graphs</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-card/80 to-muted/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+              <div className="flex items-start gap-3 mb-3">
+                <span className="text-2xl">🔮</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary">LLMOps</h3>
+                  <p className="text-sm text-muted-foreground">RAG | Prompt Engineering | Fine-Tuning | LLM Deployment | Monitoring | Cost Optimization</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-card/80 to-muted/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+              <div className="flex items-start gap-3 mb-3">
+                <span className="text-2xl">🤖</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary">Machine Learning</h3>
+                  <p className="text-sm text-muted-foreground">Regression | Classification | Clustering | Dimensionality Reduction | Anomaly Detection | Predictive Modeling</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-card/80 to-muted/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+              <div className="flex items-start gap-3 mb-3">
+                <span className="text-2xl">🧬</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary">Deep Learning</h3>
+                  <p className="text-sm text-muted-foreground">MLP | CNNs | RNNs | LSTM | GRU | Transformers | GANs | Diffusion Models</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-card/80 to-muted/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+              <div className="flex items-start gap-3 mb-3">
+                <span className="text-2xl">🗣️</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary">Natural Language Processing (NLP)</h3>
+                  <p className="text-sm text-muted-foreground">Text Classification | Sentiment Analysis | NER | Summarization | Conversational AI | RAG</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-card/80 to-muted/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+              <div className="flex items-start gap-3 mb-3">
+                <span className="text-2xl">⚙️</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary">MLOps & Deployment</h3>
+                  <p className="text-sm text-muted-foreground">Pipelines | CI/CD GitHub Actions 🚀 | Model Monitoring | Drift Detection | GitHub 🐙 | Docker 🐳 | MLflow 📈 | DVC 📂 | DagsHub 🌟 | AWS ☁️ | GCP 🌐 | Azure 🔷</p>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Data & Analysis Skills */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <Card className="p-6 bg-gradient-to-br from-card/80 to-muted/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+              <div className="flex items-start gap-3 mb-3">
+                <span className="text-2xl">📊</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary">Data Analysis & Visualization</h3>
+                  <p className="text-sm text-muted-foreground">SQL | Excel | Power BI | Pandas | NumPy | Matplotlib | Seaborn | SciPy | KPI Reporting</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-card/80 to-muted/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+              <div className="flex items-start gap-3 mb-3">
+                <span className="text-2xl">📝</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary">Data Formats</h3>
+                  <p className="text-sm text-muted-foreground">Markdown | HTML | XML | JSON</p>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Frameworks & Tools */}
+          <div className="mt-12">
+            <h3 className="text-2xl font-bold text-center mb-8">Frameworks & Tools</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <Card className="p-4 bg-gradient-to-r from-card/60 to-muted/40 backdrop-blur-sm hover:shadow-md transition-all duration-300">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-lg">⚡</span>
+                  <h4 className="font-semibold text-primary">ML Libraries</h4>
+                </div>
+                <p className="text-sm text-muted-foreground">Scikit-learn | XGBoost | LightGBM | CatBoost</p>
+              </Card>
+
+              <Card className="p-4 bg-gradient-to-r from-card/60 to-muted/40 backdrop-blur-sm hover:shadow-md transition-all duration-300">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-lg">🔶</span>
+                  <h4 className="font-semibold text-primary">DL Frameworks</h4>
+                </div>
+                <p className="text-sm text-muted-foreground">TensorFlow | PyTorch 🔥 | Keras</p>
+              </Card>
+
+              <Card className="p-4 bg-gradient-to-r from-card/60 to-muted/40 backdrop-blur-sm hover:shadow-md transition-all duration-300">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-lg">📚</span>
+                  <h4 className="font-semibold text-primary">NLP Frameworks</h4>
+                </div>
+                <p className="text-sm text-muted-foreground">Hugging Face 🤗 | SpaCy | NLTK</p>
+              </Card>
+
+              <Card className="p-4 bg-gradient-to-r from-card/60 to-muted/40 backdrop-blur-sm hover:shadow-md transition-all duration-300">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-lg">🔗</span>
+                  <h4 className="font-semibold text-primary">AI Agent Frameworks</h4>
+                </div>
+                <p className="text-sm text-muted-foreground">LangChain | LangGraph | LangFlow | n8n</p>
+              </Card>
+
+              <Card className="p-4 bg-gradient-to-r from-card/60 to-muted/40 backdrop-blur-sm hover:shadow-md transition-all duration-300">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-lg">🖥️</span>
+                  <h4 className="font-semibold text-primary">Backend</h4>
+                </div>
+                <p className="text-sm text-muted-foreground">Flask | FastAPI ⚡ | Django</p>
+              </Card>
+
+              <Card className="p-4 bg-gradient-to-r from-card/60 to-muted/40 backdrop-blur-sm hover:shadow-md transition-all duration-300">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-lg">🎨</span>
+                  <h4 className="font-semibold text-primary">Frontend</h4>
+                </div>
+                <p className="text-sm text-muted-foreground">Streamlit 📊 | HTML | CSS</p>
+              </Card>
+            </div>
           </div>
         </section>
 

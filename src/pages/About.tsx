@@ -6,10 +6,13 @@ import profileImage from "@/assets/profile-placeholder.jpg";
 const About = () => {
   const experience = [
     {
-      year: "2019-Present",
-      role: "Senior AI Engineer",
-      company: "Tech Innovation Corp",
-      description: "Leading AI initiatives, implementing MLOps pipelines, and developing production-ready ML systems.",
+      year: "Nov 2022 – Present",
+      role: "Freelance Data Scientist / AI Consultant ",
+      company: "UpWork",
+      description: "•	Delivered end-to-end ML and GenAI solutions for clients in retail, e-commerce, and finance, enhancing decision-making and boosting revenues.
+                    •	Built predictive models for sales forecasting, fraud detection, and customer segmentation using Python (Scikit-learn, TensorFlow, XGBoost), resulting in 10–15% revenue growth.
+                    •	Designed RAG-powered NLP pipelines for social media analytics, increasing sentiment analysis accuracy by 22%.
+                    •	Developed interactive AI dashboards (Streamlit, Power BI) for real-time insights, improving visualization accuracy by 25%.",
     },
     {
       year: "2017-2019",

@@ -19,7 +19,7 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <NavLink to="/" className="text-xl font-bold text-gradient">
-            AI.Engineer
+            AI Engineer
           </NavLink>
 
           {/* Desktop Navigation */}

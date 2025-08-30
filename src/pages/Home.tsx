@@ -51,8 +51,7 @@ const Home = () => {
         
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            AI Engineer
-            <span className="block text-gradient">& ML Expert</span>
+            <span className="block text-gradient">AI/ML Engineer</span>
           </h1>
           <p className="text-xl md:text-2xl text-foreground/80 mb-8 max-w-2xl mx-auto">AI Engineer | 5+ yrs ML & MLOps | Deep Learning | GenAI | AI Agents | Agentic AI | End-to-End LLMOps</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

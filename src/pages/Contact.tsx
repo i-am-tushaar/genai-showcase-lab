@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, MapPin, Phone, Linkedin, Github, Twitter, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Linkedin, Github, FileText, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -66,9 +66,9 @@ const Contact = () => {
       href: "https://github.com/i-am-tushaar",
     },
     {
-      icon: Twitter,
-      label: "Twitter",
-      href: "https://twitter.com/aiengineer",
+      icon: FileText,
+      label: "Notion Resume",
+      href: "https://your-notion-resume-link.com",
     },
   ];
 

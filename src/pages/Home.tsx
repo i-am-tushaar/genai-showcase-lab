@@ -1,4 +1,4 @@
-import { ArrowRight, Brain, Code, Zap, Cloud, Database, Layers } from "lucide-react";
+import { ArrowRight, Brain, Code, Zap, Cloud, Database, Layers, Download } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -63,6 +63,15 @@ const Home = () => {
             </Button>
             <Button asChild variant="outline" size="lg">
               <Link to="/contact">Get In Touch</Link>
+            </Button>
+            <Button asChild variant="secondary" size="lg">
+              <a 
+                href="https://your-resume-download-link.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                Download Resume <Download className="ml-2 h-5 w-5" />
+              </a>
             </Button>
           </div>
         </div>

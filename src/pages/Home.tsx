@@ -13,7 +13,7 @@ const Home = () => {
     icon: Code,
     title: "🔮 LLMOps & Advanced MLOps",
     description: "End-to-End LLM Pipelines | Prompt Engineering | CI/CD (GitHub Actions 🚀) | MLflow 📈 | DVC 📂 | Docker 🐳 | DagsHub 🌟 | Model Monitoring & Drift Detection",
-    link: "https://mlflow.org/docs/"
+    link: "https://mlflow.org/"
   }, {
     icon: Brain,
     title: "🧠 AI/ML & Deep Learning",
@@ -33,7 +33,7 @@ const Home = () => {
     icon: Database,
     title: "📊 Data & Analytics",
     description: "SQL | Pandas | NumPy | Matplotlib | Seaborn | Power BI | Streamlit 📊 | KPI Reporting | Data Cleaning & EDA",
-    link: "https://scikit-learn.org/"
+    link: "https://pandas.pydata.org/docs/"
   }, {
     icon: Layers,
     title: "🖥️ Frameworks & Tools",

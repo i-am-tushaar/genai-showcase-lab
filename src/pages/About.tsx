@@ -114,7 +114,7 @@ const About = () => {
 
         {/* Achievements */}
         <section className="py-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {achievements.map((achievement, index) => (
               <Card key={index} className="p-6 text-center bg-card/50 backdrop-blur-sm">
                 <achievement.icon className="h-8 w-8 mx-auto mb-4 text-primary" />

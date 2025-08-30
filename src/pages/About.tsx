@@ -87,7 +87,6 @@ const About = () => {
     { icon: Award, title: "15+ ML Models", description: "Deployed to production" },
     { icon: Users, title: "50+ Projects", description: "Successfully delivered" },
     { icon: Calendar, title: "5+ Years", description: "ML & AI Experience" },
-    { icon: MapPin, title: "Global Impact", description: "Across 10+ countries" },
   ];
 
   return (

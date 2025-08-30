@@ -33,12 +33,12 @@ const Home = () => {
     icon: Database,
     title: "📊 Data & Analytics",
     description: "SQL | Pandas | NumPy | Matplotlib | Seaborn | Power BI | Streamlit 📊 | KPI Reporting | Data Cleaning & EDA",
-    link: "https://docs.pinecone.io/"
+    link: "https://scikit-learn.org/"
   }, {
     icon: Layers,
     title: "🖥️ Frameworks & Tools",
     description: "PyTorch 🔥 | TensorFlow 🔶 | Hugging Face 🤗 | Scikit-learn | FastAPI ⚡ | Flask | Django | HTML, CSS, Markdown, JSON, XML",
-    link: "https://huggingface.co/docs"
+    link: "https://docs.djangoproject.com/"
   }];
   return <div className="min-h-screen">
       {/* Hero Section */}

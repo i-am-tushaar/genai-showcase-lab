@@ -103,12 +103,7 @@ const About = () => {
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">About Me</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            AI Engineer with 5+ years of experience delivering Machine Learning, Deep Learning, Generative AI, and Agentic AI solutions.
-            
-            Proven expertise in MLOps and LLMOps for end-to-end ML/LLM pipelines including data ingestion, model training, RAG, deployment, monitoring, and governance. 
-            Skilled at building multi-agent systems, predictive pipelines, and domain-specific GenAI applications. 
-            
-            Strong track record of reducing costs, improving accuracy, and scaling AI systems in production environments.
+            AI Engineer with 5+ years of experience in ML, Deep Learning, Generative AI, and Agentic AI. Skilled in MLOps & LLMOps for end-to-end pipelines, RAG, deployment, and monitoring. Proven track record of building multi-agent systems, predictive models, and domain-specific GenAI apps that improve accuracy, cut costs, and scale in production.
           </p>
         </section>
 

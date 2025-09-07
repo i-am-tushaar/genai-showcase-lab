@@ -3,13 +3,17 @@ import { Calendar, Clock, Tag, Star } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { blogPosts, categories } from "@/data/blogData";
+import { markdownBlogs } from "@/data/markdownBlogs";
 
 const Blogs = () => {
-  const featuredPosts = blogPosts.filter(post => post.featured);
+  // Combine both blog sources
+  const allBlogs = [...markdownBlogs, ...blogPosts];
+  
+  const featuredPosts = allBlogs.filter(post => post.featured);
   const categorizedPosts = categories.reduce((acc, category) => {
-    acc[category] = blogPosts.filter(post => post.category === category && !post.featured);
+    acc[category] = allBlogs.filter(post => post.category === category && !post.featured);
     return acc;
-  }, {} as Record<string, typeof blogPosts>);
+  }, {} as Record<string, typeof allBlogs>);
 
   return (
     <div className="min-h-screen pt-20">

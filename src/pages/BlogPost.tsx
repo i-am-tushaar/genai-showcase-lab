@@ -2,12 +2,18 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock, Tag, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { blogPosts } from "@/data/blogData";
 import { Card } from "@/components/ui/card";
+import { blogPosts } from "@/data/blogData";
+import { markdownBlogs } from "@/data/markdownBlogs";
+import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 
 const BlogPost = () => {
   const { id } = useParams<{ id: string }>();
-  const post = blogPosts.find(p => p.id === id);
+  
+  // First check markdown blogs, then fallback to regular blogs
+  const markdownBlog = markdownBlogs.find(post => post.id === id);
+  const blogPost = blogPosts.find(post => post.id === id);
+  const post = markdownBlog || blogPost;
 
   if (!post) {
     return (
@@ -93,23 +99,19 @@ const BlogPost = () => {
 
         {/* Article Content */}
         <div className="prose prose-lg max-w-none dark:prose-invert">
-          <div 
-            className="markdown-content"
-            dangerouslySetInnerHTML={{ 
-              __html: post.content
-                .replace(/\n/g, '<br>')
-                .replace(/#{3} (.*?)(?=<br>|$)/g, '<h3>$1</h3>')
-                .replace(/#{2} (.*?)(?=<br>|$)/g, '<h2>$1</h2>')
-                .replace(/#{1} (.*?)(?=<br>|$)/g, '<h1>$1</h1>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                .replace(/```([^`]+)```/g, '<pre><code>$1</code></pre>')
-                .replace(/^\d+\. (.*?)(?=<br>|$)/gm, '<li>$1</li>')
-                .replace(/^- (.*?)(?=<br>|$)/gm, '<li>$1</li>')
-                .replace(/(<li>.*?<\/li>)/gs, '<ul>$1</ul>')
-            }}
-          />
+          {markdownBlog ? (
+            <MarkdownRenderer 
+              content={markdownBlog.markdownContent}
+              className="mt-8"
+            />
+          ) : (
+            <div 
+              className="markdown-content"
+              dangerouslySetInnerHTML={{ 
+                __html: blogPost?.content || ''
+              }}
+            />
+          )}
         </div>
 
         {/* Related Posts or CTA */}

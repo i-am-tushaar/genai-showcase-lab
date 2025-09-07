@@ -22,81 +22,371 @@ export const categories = [
 
 export const blogPosts: BlogPost[] = [
   {
-    id: "exploratory-data-analysis-guide",
-    title: "Complete Guide to Exploratory Data Analysis (EDA)",
-    description: "Master the art of data exploration with advanced EDA techniques, statistical analysis, and visualization strategies for uncovering hidden insights.",
-    content: `# Complete Guide to Exploratory Data Analysis (EDA)
+    id: "complete-data-analysis-workflow",
+    title: "Complete Data Analysis Workflow: From Excel to Power BI (With Python & SQL)",
+    description: "Master the end-to-end data analysis process, from initial data exploration in Excel to advanced visualizations in Power BI, with Python and SQL integration.",
+    content: `# Complete Data Analysis Workflow: From Excel to Power BI
 
-Exploratory Data Analysis is the foundation of any successful data science project. It's the process of investigating datasets to discover patterns, spot anomalies, and understand the underlying structure of your data.
+This comprehensive guide walks you through a complete data analysis workflow, demonstrating how to seamlessly integrate Excel, Python, SQL, and Power BI to create powerful analytical solutions.
 
-## The EDA Framework
+## Phase 1: Initial Data Exploration with Excel
 
-### 1. Data Overview and Quality Assessment
+### Data Assessment and Cleaning
+Excel remains one of the most accessible tools for initial data exploration and quick analysis.
+
+**Excel Formulas for Data Quality Assessment:**
+\`\`\`excel
+// Check for duplicates
+=COUNTIF(A:A, A2) > 1
+
+// Identify missing values
+=IF(ISBLANK(A2), "Missing", "Present")
+
+// Data type validation
+=IF(ISNUMBER(A2), "Number", IF(ISTEXT(A2), "Text", "Other"))
+
+// Outlier detection using IQR
+=IF(OR(A2<QUARTILE($A$2:$A$1000,1)-1.5*(QUARTILE($A$2:$A$1000,3)-QUARTILE($A$2:$A$1000,1)),
+       A2>QUARTILE($A$2:$A$1000,3)+1.5*(QUARTILE($A$2:$A$1000,3)-QUARTILE($A$2:$A$1000,1))),
+   "Outlier", "Normal")
+\`\`\`
+
+### Pivot Tables for Initial Analysis
+\`\`\`excel
+// Create dynamic pivot table summaries
+// 1. Insert > PivotTable
+// 2. Drag fields to appropriate areas:
+//    - Rows: Categories/Dimensions
+//    - Values: Metrics (Sum, Average, Count)
+//    - Filters: Date ranges, segments
+\`\`\`
+
+### Advanced Excel Functions for Analysis
+\`\`\`excel
+// Dynamic arrays for data analysis (Excel 365)
+=FILTER(A2:E1000, (C2:C1000>100)*(D2:D1000="Active"))
+
+// Statistical analysis
+=CORREL(A2:A1000, B2:B1000)  // Correlation coefficient
+=SLOPE(A2:A1000, B2:B1000)   // Regression slope
+=RSQ(A2:A1000, B2:B1000)     // R-squared value
+
+// Conditional aggregations
+=SUMIFS(Sales, Region, "North", Date, ">="&DATE(2024,1,1))
+=AVERAGEIFS(Performance, Category, "A", Status, "Complete")
+\`\`\`
+
+## Phase 2: Advanced Analysis with Python
+
+### Data Import and Integration
 \`\`\`python
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sqlalchemy import create_engine
+import plotly.express as px
+import plotly.graph_objects as go
 
-# First look at the data
-df.info()
-df.describe()
-df.head()
+# Read Excel data with multiple sheets
+excel_data = pd.read_excel('analysis_data.xlsx', sheet_name=None)
+df_main = excel_data['MainData']
+df_lookup = excel_data['LookupTable']
 
-# Check for missing values
-missing_data = df.isnull().sum()
-print(missing_data[missing_data > 0])
+# Connect to SQL database for additional data
+engine = create_engine('postgresql://user:password@localhost:5432/database')
+sql_data = pd.read_sql_query("""
+    SELECT customer_id, transaction_date, amount, product_category
+    FROM transactions 
+    WHERE transaction_date >= '2024-01-01'
+""", engine)
+
+# Merge Excel and SQL data
+combined_data = df_main.merge(sql_data, on='customer_id', how='left')
 \`\`\`
 
-### 2. Univariate Analysis
-Understanding individual variables before relationships:
-
+### Statistical Analysis and Feature Engineering
 \`\`\`python
-# Numerical variables
-df.select_dtypes(include=[np.number]).hist(bins=20, figsize=(15, 10))
+# Advanced statistical analysis
+from scipy import stats
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+
+# Descriptive statistics with confidence intervals
+def calculate_ci(data, confidence=0.95):
+    n = len(data)
+    mean = np.mean(data)
+    sem = stats.sem(data)
+    h = sem * stats.t.ppf((1 + confidence) / 2., n-1)
+    return mean - h, mean + h
+
+# Feature engineering
+df['month'] = pd.to_datetime(df['date']).dt.month
+df['quarter'] = pd.to_datetime(df['date']).dt.quarter
+df['day_of_week'] = pd.to_datetime(df['date']).dt.dayofweek
+
+# Create rolling metrics
+df['rolling_avg_30d'] = df.groupby('customer_id')['amount'].rolling(window=30).mean().reset_index(drop=True)
+df['cumulative_total'] = df.groupby('customer_id')['amount'].cumsum()
+
+# Customer segmentation using RFM analysis
+def calculate_rfm(df):
+    current_date = df['date'].max()
+    rfm = df.groupby('customer_id').agg({
+        'date': lambda x: (current_date - x.max()).days,  # Recency
+        'transaction_id': 'count',                        # Frequency
+        'amount': 'sum'                                   # Monetary
+    })
+    rfm.columns = ['recency', 'frequency', 'monetary']
+    
+    # Create RFM scores
+    rfm['r_score'] = pd.qcut(rfm['recency'], 5, labels=[5,4,3,2,1])
+    rfm['f_score'] = pd.qcut(rfm['frequency'].rank(method='first'), 5, labels=[1,2,3,4,5])
+    rfm['m_score'] = pd.qcut(rfm['monetary'], 5, labels=[1,2,3,4,5])
+    
+    return rfm
+
+rfm_analysis = calculate_rfm(combined_data)
+\`\`\`
+
+### Advanced Visualizations
+\`\`\`python
+# Create comprehensive analysis dashboard
+fig, axes = plt.subplots(2, 3, figsize=(20, 12))
+
+# 1. Time series analysis
+axes[0,0].plot(df.groupby('date')['amount'].sum())
+axes[0,0].set_title('Revenue Trend Over Time')
+axes[0,0].tick_params(axis='x', rotation=45)
+
+# 2. Distribution analysis
+sns.histplot(df['amount'], kde=True, ax=axes[0,1])
+axes[0,1].set_title('Transaction Amount Distribution')
+
+# 3. Correlation heatmap
+correlation_matrix = df.select_dtypes(include=[np.number]).corr()
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', ax=axes[0,2])
+axes[0,2].set_title('Feature Correlations')
+
+# 4. Category performance
+category_performance = df.groupby('category')['amount'].agg(['sum', 'mean', 'count'])
+category_performance.plot(kind='bar', ax=axes[1,0])
+axes[1,0].set_title('Performance by Category')
+
+# 5. Customer segmentation
+rfm_analysis.plot.scatter(x='frequency', y='monetary', c='recency', 
+                         colormap='viridis', ax=axes[1,1])
+axes[1,1].set_title('Customer Segmentation (RFM)')
+
+# 6. Outlier analysis
+sns.boxplot(data=df, x='category', y='amount', ax=axes[1,2])
+axes[1,2].set_title('Outlier Analysis by Category')
+axes[1,2].tick_params(axis='x', rotation=45)
+
 plt.tight_layout()
-
-# Categorical variables  
-for col in df.select_dtypes(include=['object']).columns:
-    plt.figure(figsize=(10, 6))
-    df[col].value_counts().plot(kind='bar')
-    plt.title(f'Distribution of {col}')
-    plt.xticks(rotation=45)
+plt.show()
 \`\`\`
 
-### 3. Bivariate Analysis
-\`\`\`python
-# Correlation analysis
-correlation_matrix = df.corr()
-plt.figure(figsize=(12, 8))
-sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', center=0)
+## Phase 3: Database Integration with SQL
 
-# Scatter plots for key relationships
-sns.pairplot(df, hue='target_variable')
+### Advanced SQL Queries for Analysis
+\`\`\`sql
+-- Customer Lifetime Value Analysis
+WITH customer_metrics AS (
+    SELECT 
+        customer_id,
+        MIN(transaction_date) as first_purchase,
+        MAX(transaction_date) as last_purchase,
+        COUNT(*) as transaction_count,
+        SUM(amount) as total_spent,
+        AVG(amount) as avg_order_value,
+        EXTRACT(DAYS FROM MAX(transaction_date) - MIN(transaction_date)) as customer_lifespan
+    FROM transactions
+    GROUP BY customer_id
+),
+clv_calculation AS (
+    SELECT *,
+        CASE 
+            WHEN customer_lifespan > 0 
+            THEN (total_spent / customer_lifespan) * 365
+            ELSE total_spent
+        END as annual_clv
+    FROM customer_metrics
+)
+SELECT 
+    quartiles.quartile,
+    COUNT(*) as customer_count,
+    AVG(annual_clv) as avg_clv,
+    MIN(annual_clv) as min_clv,
+    MAX(annual_clv) as max_clv
+FROM (
+    SELECT *,
+        NTILE(4) OVER (ORDER BY annual_clv) as quartile
+    FROM clv_calculation
+) quartiles
+GROUP BY quartiles.quartile
+ORDER BY quartiles.quartile;
+
+-- Advanced Time Series Analysis
+WITH daily_metrics AS (
+    SELECT 
+        DATE_TRUNC('day', transaction_date) as date,
+        COUNT(*) as transaction_count,
+        SUM(amount) as daily_revenue,
+        COUNT(DISTINCT customer_id) as unique_customers,
+        AVG(amount) as avg_transaction_value
+    FROM transactions
+    WHERE transaction_date >= CURRENT_DATE - INTERVAL '365 days'
+    GROUP BY DATE_TRUNC('day', transaction_date)
+),
+metrics_with_trends AS (
+    SELECT *,
+        LAG(daily_revenue) OVER (ORDER BY date) as prev_day_revenue,
+        AVG(daily_revenue) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) as rolling_7day_avg,
+        AVG(daily_revenue) OVER (ORDER BY date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) as rolling_30day_avg
+    FROM daily_metrics
+)
+SELECT *,
+    CASE 
+        WHEN prev_day_revenue IS NOT NULL 
+        THEN ((daily_revenue - prev_day_revenue) / prev_day_revenue) * 100
+        ELSE 0
+    END as day_over_day_growth
+FROM metrics_with_trends
+ORDER BY date DESC;
+
+-- Product Performance Analysis with Statistical Measures
+SELECT 
+    product_category,
+    COUNT(*) as total_sales,
+    SUM(amount) as total_revenue,
+    AVG(amount) as mean_price,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY amount) as median_price,
+    STDDEV(amount) as price_std_dev,
+    MIN(amount) as min_price,
+    MAX(amount) as max_price,
+    PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY amount) as q1,
+    PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY amount) as q3
+FROM transactions
+GROUP BY product_category
+ORDER BY total_revenue DESC;
 \`\`\`
 
-### 4. Advanced EDA Techniques
-- **Statistical Tests**: Kolmogorov-Smirnov, Shapiro-Wilk for normality
-- **Outlier Detection**: IQR method, Z-score, Isolation Forest
-- **Feature Engineering**: Creating new variables from existing ones
+## Phase 4: Power BI Integration and Advanced Dashboards
 
-## Key Insights to Look For
-1. **Data Quality Issues**: Missing values, duplicates, inconsistencies
-2. **Distribution Patterns**: Skewness, modality, outliers
-3. **Relationships**: Linear/non-linear correlations, dependencies
-4. **Business Logic Validation**: Do the patterns make business sense?
+### Data Model Setup
+\`\`\`dax
+// Create calculated columns for enhanced analysis
 
-## Best Practices
-- Always start with business understanding
-- Document your findings systematically  
-- Use appropriate visualizations for different data types
-- Validate assumptions with domain experts
-- Iterate based on initial findings
+// Customer Segment (DAX)
+CustomerSegment = 
+SWITCH(TRUE(),
+    Customers[TotalSpent] >= 10000, "VIP",
+    Customers[TotalSpent] >= 5000, "Premium",
+    Customers[TotalSpent] >= 1000, "Standard",
+    "Basic"
+)
 
-EDA is not just about running code—it's about asking the right questions and letting the data guide your analysis strategy.`,
-    date: "2024-03-01",
-    tags: ["Data Analysis", "EDA", "Statistics", "Python"],
-    readTime: "12 min read",
+// Revenue Growth Rate
+RevenueGrowthRate = 
+VAR CurrentMonthRevenue = SUM(Transactions[Amount])
+VAR PreviousMonthRevenue = 
+    CALCULATE(
+        SUM(Transactions[Amount]),
+        DATEADD(Transactions[Date], -1, MONTH)
+    )
+RETURN
+    DIVIDE(
+        CurrentMonthRevenue - PreviousMonthRevenue,
+        PreviousMonthRevenue
+    )
+
+// Customer Retention Rate
+CustomerRetentionRate = 
+VAR CustomersThisMonth = DISTINCTCOUNT(Transactions[CustomerID])
+VAR CustomersLastMonth = 
+    CALCULATE(
+        DISTINCTCOUNT(Transactions[CustomerID]),
+        DATEADD(Transactions[Date], -1, MONTH)
+    )
+VAR ReturningCustomers = 
+    CALCULATE(
+        DISTINCTCOUNT(Transactions[CustomerID]),
+        FILTER(
+            Transactions,
+            Transactions[CustomerID] IN 
+                CALCULATETABLE(
+                    VALUES(Transactions[CustomerID]),
+                    DATEADD(Transactions[Date], -1, MONTH)
+                )
+        )
+    )
+RETURN
+    DIVIDE(ReturningCustomers, CustomersLastMonth)
+\`\`\`
+
+### Advanced Measures for Business Intelligence
+\`\`\`dax
+// Year-over-Year Growth
+YoY_Growth = 
+VAR CurrentYearValue = SUM(Transactions[Amount])
+VAR PreviousYearValue = 
+    CALCULATE(
+        SUM(Transactions[Amount]),
+        SAMEPERIODLASTYEAR(Transactions[Date])
+    )
+RETURN
+    DIVIDE(
+        CurrentYearValue - PreviousYearValue,
+        PreviousYearValue
+    )
+
+// Rolling 12-Month Average
+Rolling12MonthAvg = 
+AVERAGEX(
+    DATESINPERIOD(
+        Transactions[Date],
+        MAX(Transactions[Date]),
+        -12,
+        MONTH
+    ),
+    [MonthlyRevenue]
+)
+
+// Customer Lifetime Value Prediction
+PredictedCLV = 
+VAR AvgOrderValue = AVERAGE(Transactions[Amount])
+VAR PurchaseFrequency = DIVIDE(COUNT(Transactions[TransactionID]), DISTINCTCOUNT(Transactions[CustomerID]))
+VAR CustomerLifespan = 24 // months - adjust based on business
+RETURN
+    AvgOrderValue * PurchaseFrequency * CustomerLifespan
+\`\`\`
+
+## Integration Workflow Summary
+
+### Data Flow Architecture
+1. **Excel** → Initial data collection and basic analysis
+2. **Python** → Advanced statistical analysis and feature engineering  
+3. **SQL Database** → Scalable data storage and complex queries
+4. **Power BI** → Interactive dashboards and business intelligence
+
+### Best Practices for Workflow Integration
+- **Version Control**: Use Git for Python scripts and SQL queries
+- **Data Validation**: Implement checks at each stage of the pipeline
+- **Documentation**: Maintain clear documentation for all transformations
+- **Automation**: Schedule regular data updates using tools like Apache Airflow
+- **Testing**: Validate results across all platforms for consistency
+
+### Performance Optimization Tips
+- **Excel**: Use structured tables and avoid volatile functions
+- **Python**: Leverage vectorized operations with pandas and numpy
+- **SQL**: Optimize queries with proper indexing and query planning
+- **Power BI**: Use DirectQuery for large datasets, Import for smaller ones
+
+This comprehensive workflow ensures robust, scalable data analysis that can grow with your organization's needs.`,
+    date: "2024-03-20",
+    tags: ["Excel", "Python", "SQL", "Power BI", "Data Analysis", "Workflow"],
+    readTime: "25 min read",
     category: "Data Analysis",
     featured: true
   },
@@ -483,105 +773,484 @@ Multi-agent systems excel when individual agent strengths complement each other,
     category: "Agentic AI"
   },
   {
-    id: "statistical-analysis-python",
-    title: "Statistical Analysis in Python: From Basics to Advanced Techniques",
-    description: "Comprehensive guide to statistical analysis using Python, covering descriptive statistics, hypothesis testing, and advanced statistical modeling techniques.",
-    content: `# Statistical Analysis in Python: From Basics to Advanced Techniques
+    id: "top-data-analysis-techniques",
+    title: "Top Data Analysis Techniques Every Analyst Must Master (Excel, SQL, Power BI & Python)",
+    description: "Essential data analysis techniques across all major platforms - from Excel formulas to Python libraries, SQL queries to Power BI visualizations.",
+    content: `# Top Data Analysis Techniques Every Analyst Must Master
 
-Statistical analysis is fundamental to data science, providing the mathematical foundation for understanding data patterns and making informed decisions.
+Modern data analysts need proficiency across multiple platforms. This comprehensive guide covers essential techniques in Excel, SQL, Power BI, and Python that every analyst should master.
 
-## Descriptive Statistics
+## Excel: The Foundation of Data Analysis
 
-### Central Tendency and Dispersion
+### 1. Advanced Excel Formulas and Functions
+
+#### Dynamic Array Functions (Excel 365)
+\`\`\`excel
+// FILTER function for dynamic data extraction
+=FILTER(A2:E100, (C2:C100>1000)*(D2:D100="Active"))
+
+// SORT and SORTBY for dynamic sorting
+=SORT(A2:C100, 3, -1)  // Sort by 3rd column descending
+=SORTBY(A2:B100, C2:C100, -1)  // Sort A2:B100 by values in C2:C100
+
+// UNIQUE for removing duplicates
+=UNIQUE(A2:A100)
+
+// XLOOKUP - the modern replacement for VLOOKUP
+=XLOOKUP(lookup_value, lookup_array, return_array, if_not_found, match_mode, search_mode)
+\`\`\`
+
+#### Statistical Analysis Functions
+\`\`\`excel
+// Descriptive statistics
+=QUARTILE.INC(range, quartile_number)  // Quartiles
+=PERCENTILE.INC(range, k)              // Percentiles
+=SKEW(range)                           // Skewness
+=KURT(range)                           // Kurtosis
+
+// Correlation and regression
+=CORREL(array1, array2)                // Correlation coefficient
+=SLOPE(known_y_values, known_x_values) // Linear regression slope
+=INTERCEPT(known_y_values, known_x_values) // Y-intercept
+=RSQ(known_y_values, known_x_values)   // R-squared
+
+// Confidence intervals
+=CONFIDENCE.T(alpha, standard_dev, size)
+\`\`\`
+
+#### Advanced Conditional Logic
+\`\`\`excel
+// Nested conditions with multiple criteria
+=IFS(condition1, value1, condition2, value2, TRUE, default_value)
+
+// Array-based conditional sums
+=SUMPRODUCT((Category="A")*(Status="Active")*Amount)
+
+// Dynamic conditional formatting with formulas
+=AND($B2>AVERAGE($B$2:$B$100), $C2>MEDIAN($C$2:$C$100))
+\`\`\`
+
+### 2. Pivot Tables and Advanced Analytics
+
+#### Dynamic Pivot Table Techniques
+\`\`\`excel
+// Create calculated fields in pivot tables
+// 1. Click on pivot table
+// 2. PivotTable Analyze > Fields, Items & Sets > Calculated Field
+// Example: Profit Margin = Sales - Costs
+
+// Grouping dates intelligently
+// Right-click on date field in pivot > Group
+// Options: Days, Months, Quarters, Years
+
+// Show values as percentage calculations
+// Right-click on value field > Show Values As > % of Grand Total
+\`\`\`
+
+#### Power Query for Data Transformation
+\`\`\`excel
+// Data > Get Data > From File/Database/Web
+// Transform operations in Power Query Editor:
+
+// Remove duplicates
+Table.Distinct(Source)
+
+// Filter rows
+Table.SelectRows(Source, each [Column] > 100)
+
+// Add conditional columns
+if [Sales] > 1000 then "High" else if [Sales] > 500 then "Medium" else "Low"
+
+// Group and aggregate
+Table.Group(Source, {"Category"}, {{"Total Sales", each List.Sum([Sales]), type number}})
+\`\`\`
+
+## SQL: Mastering Database Analysis
+
+### 3. Advanced SQL Query Techniques
+
+#### Window Functions for Analytics
+\`\`\`sql
+-- Ranking and row numbering
+SELECT 
+    customer_id,
+    order_date,
+    order_amount,
+    ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date) as order_sequence,
+    RANK() OVER (ORDER BY order_amount DESC) as amount_rank,
+    DENSE_RANK() OVER (PARTITION BY EXTRACT(YEAR FROM order_date) ORDER BY order_amount DESC) as yearly_rank
+FROM orders;
+
+-- Running totals and moving averages
+SELECT 
+    order_date,
+    daily_sales,
+    SUM(daily_sales) OVER (ORDER BY order_date ROWS UNBOUNDED PRECEDING) as running_total,
+    AVG(daily_sales) OVER (ORDER BY order_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) as moving_avg_7day,
+    LAG(daily_sales, 1) OVER (ORDER BY order_date) as previous_day,
+    LEAD(daily_sales, 1) OVER (ORDER BY order_date) as next_day
+FROM daily_sales_summary;
+
+-- Percentile calculations
+SELECT 
+    product_category,
+    price,
+    PERCENT_RANK() OVER (PARTITION BY product_category ORDER BY price) as price_percentile,
+    NTILE(4) OVER (ORDER BY price) as price_quartile
+FROM products;
+\`\`\`
+
+#### Complex Analytical Queries
+\`\`\`sql
+-- Customer Cohort Analysis
+WITH cohorts AS (
+    SELECT 
+        customer_id,
+        DATE_TRUNC('month', MIN(order_date)) as cohort_month
+    FROM orders
+    GROUP BY customer_id
+),
+cohort_sizes AS (
+    SELECT 
+        cohort_month,
+        COUNT(*) as cohort_size
+    FROM cohorts
+    GROUP BY cohort_month
+),
+cohort_table AS (
+    SELECT 
+        c.cohort_month,
+        DATE_TRUNC('month', o.order_date) as order_month,
+        COUNT(DISTINCT o.customer_id) as active_customers
+    FROM cohorts c
+    JOIN orders o ON c.customer_id = o.customer_id
+    GROUP BY c.cohort_month, DATE_TRUNC('month', o.order_date)
+)
+SELECT 
+    ct.cohort_month,
+    ct.order_month,
+    ct.active_customers,
+    cs.cohort_size,
+    ROUND(ct.active_customers::numeric / cs.cohort_size * 100, 2) as retention_rate,
+    EXTRACT(MONTH FROM AGE(ct.order_month, ct.cohort_month)) as period_number
+FROM cohort_table ct
+JOIN cohort_sizes cs ON ct.cohort_month = cs.cohort_month
+ORDER BY ct.cohort_month, ct.order_month;
+
+-- Advanced Sales Analytics
+WITH sales_metrics AS (
+    SELECT 
+        DATE_TRUNC('month', order_date) as month,
+        customer_id,
+        SUM(order_amount) as monthly_spend,
+        COUNT(*) as monthly_orders
+    FROM orders
+    GROUP BY DATE_TRUNC('month', order_date), customer_id
+),
+customer_segments AS (
+    SELECT 
+        customer_id,
+        AVG(monthly_spend) as avg_monthly_spend,
+        AVG(monthly_orders) as avg_monthly_orders,
+        CASE 
+            WHEN AVG(monthly_spend) > 1000 AND AVG(monthly_orders) > 5 THEN 'High Value Frequent'
+            WHEN AVG(monthly_spend) > 1000 THEN 'High Value'
+            WHEN AVG(monthly_orders) > 5 THEN 'Frequent'
+            ELSE 'Standard'
+        END as customer_segment
+    FROM sales_metrics
+    GROUP BY customer_id
+)
+SELECT 
+    customer_segment,
+    COUNT(*) as customer_count,
+    ROUND(AVG(avg_monthly_spend), 2) as avg_spend,
+    ROUND(AVG(avg_monthly_orders), 2) as avg_orders
+FROM customer_segments
+GROUP BY customer_segment
+ORDER BY avg_spend DESC;
+\`\`\`
+
+## Python: Advanced Statistical Analysis
+
+### 4. Pandas for Data Manipulation
+
+#### Advanced DataFrame Operations
 \`\`\`python
 import pandas as pd
 import numpy as np
-import scipy.stats as stats
-import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
+
+# Advanced groupby operations
+def calculate_customer_metrics(df):
+    return df.groupby('customer_id').agg({
+        'order_date': ['min', 'max', 'count'],
+        'order_amount': ['sum', 'mean', 'std'],
+        'product_id': lambda x: x.nunique()  # Unique products purchased
+    }).round(2)
+
+# Multi-level indexing and pivoting
+pivot_analysis = df.pivot_table(
+    values=['sales', 'profit'],
+    index=['year', 'quarter'],
+    columns='product_category',
+    aggfunc={'sales': 'sum', 'profit': ['sum', 'mean']},
+    fill_value=0,
+    margins=True
+)
+
+# Time series resampling and analysis
+df['date'] = pd.to_datetime(df['date'])
+df.set_index('date', inplace=True)
+
+# Resample to different frequencies
+monthly_summary = df.resample('M').agg({
+    'sales': ['sum', 'mean', 'count'],
+    'customers': 'nunique'
+})
+
+# Rolling calculations
+df['sales_ma_7d'] = df['sales'].rolling(window=7).mean()
+df['sales_ma_30d'] = df['sales'].rolling(window=30).mean()
+df['sales_ewm'] = df['sales'].ewm(span=10).mean()  # Exponential weighted moving average
+\`\`\`
+
+#### Statistical Analysis and Hypothesis Testing
+\`\`\`python
+from scipy import stats
+from scipy.stats import chi2_contingency, ttest_ind, mannwhitneyu
 import seaborn as sns
+import matplotlib.pyplot as plt
 
-# Load and examine data
-df = pd.read_csv('data.csv')
+# Comprehensive statistical testing function
+def perform_statistical_tests(group1, group2, test_name="Groups"):
+    """
+    Perform multiple statistical tests comparing two groups
+    """
+    results = {}
+    
+    # Descriptive statistics
+    results['group1_stats'] = {
+        'mean': np.mean(group1),
+        'median': np.median(group1),
+        'std': np.std(group1),
+        'n': len(group1)
+    }
+    results['group2_stats'] = {
+        'mean': np.mean(group2),
+        'median': np.median(group2),
+        'std': np.std(group2),
+        'n': len(group2)
+    }
+    
+    # Normality tests
+    _, p_norm1 = stats.shapiro(group1[:5000])  # Shapiro-Wilk (max 5000 samples)
+    _, p_norm2 = stats.shapiro(group2[:5000])
+    
+    results['normality'] = {
+        'group1_normal': p_norm1 > 0.05,
+        'group2_normal': p_norm2 > 0.05
+    }
+    
+    # Choose appropriate test based on normality
+    if results['normality']['group1_normal'] and results['normality']['group2_normal']:
+        # Both normal - use t-test
+        t_stat, p_value = ttest_ind(group1, group2)
+        results['test_used'] = 'Independent t-test'
+    else:
+        # Non-normal - use Mann-Whitney U test
+        u_stat, p_value = mannwhitneyu(group1, group2, alternative='two-sided')
+        results['test_used'] = 'Mann-Whitney U test'
+        t_stat = u_stat
+    
+    results['test_results'] = {
+        'statistic': t_stat,
+        'p_value': p_value,
+        'significant': p_value < 0.05
+    }
+    
+    return results
 
-# Basic descriptive statistics
-print(df.describe())
-print(f"Skewness: {df['column'].skew()}")
-print(f"Kurtosis: {df['column'].kurtosis()}")
-
-# Confidence intervals
-mean = df['column'].mean()
-sem = stats.sem(df['column'])
-confidence_interval = stats.t.interval(0.95, len(df['column'])-1, loc=mean, scale=sem)
+# A/B Testing Analysis
+def ab_test_analysis(control_group, treatment_group, metric_name):
+    """
+    Comprehensive A/B test analysis
+    """
+    # Calculate effect size (Cohen's d)
+    pooled_std = np.sqrt(((len(control_group) - 1) * np.var(control_group) + 
+                         (len(treatment_group) - 1) * np.var(treatment_group)) / 
+                        (len(control_group) + len(treatment_group) - 2))
+    
+    cohens_d = (np.mean(treatment_group) - np.mean(control_group)) / pooled_std
+    
+    # Statistical test
+    test_results = perform_statistical_tests(control_group, treatment_group)
+    
+    # Calculate confidence interval for the difference
+    diff_mean = np.mean(treatment_group) - np.mean(control_group)
+    se_diff = np.sqrt(np.var(control_group)/len(control_group) + 
+                     np.var(treatment_group)/len(treatment_group))
+    
+    ci_lower = diff_mean - 1.96 * se_diff
+    ci_upper = diff_mean + 1.96 * se_diff
+    
+    return {
+        'metric': metric_name,
+        'control_mean': np.mean(control_group),
+        'treatment_mean': np.mean(treatment_group),
+        'difference': diff_mean,
+        'effect_size_cohens_d': cohens_d,
+        'confidence_interval_95': (ci_lower, ci_upper),
+        'statistical_test': test_results
+    }
 \`\`\`
 
-## Hypothesis Testing
+## Power BI: Advanced Visualization and DAX
 
-### Common Statistical Tests
-\`\`\`python
-# T-test for comparing means
-from scipy.stats import ttest_ind, ttest_1samp, ttest_rel
+### 5. DAX Mastery for Business Intelligence
 
-# One-sample t-test
-t_stat, p_value = ttest_1samp(sample_data, population_mean)
+#### Advanced DAX Patterns
+\`\`\`dax
+// Time Intelligence Functions
+YTD_Sales = TOTALYTD(SUM(Sales[Amount]), DateTable[Date])
+MTD_Sales = TOTALMTD(SUM(Sales[Amount]), DateTable[Date])
+QTD_Sales = TOTALQTD(SUM(Sales[Amount]), DateTable[Date])
 
-# Independent samples t-test
-t_stat, p_value = ttest_ind(group1, group2)
+// Previous Period Comparisons
+Sales_PY = CALCULATE(
+    SUM(Sales[Amount]),
+    SAMEPERIODLASTYEAR(DateTable[Date])
+)
 
-# Paired samples t-test
-t_stat, p_value = ttest_rel(before_treatment, after_treatment)
+Sales_PM = CALCULATE(
+    SUM(Sales[Amount]),
+    DATEADD(DateTable[Date], -1, MONTH)
+)
 
-# Chi-square test for independence
-from scipy.stats import chi2_contingency
-chi2, p_value, dof, expected = chi2_contingency(contingency_table)
+// Growth Calculations
+YoY_Growth = 
+VAR CurrentYear = SUM(Sales[Amount])
+VAR PreviousYear = [Sales_PY]
+RETURN
+    DIVIDE(CurrentYear - PreviousYear, PreviousYear, 0)
+
+// Advanced Filtering with CALCULATE
+High_Value_Customers_Sales = 
+CALCULATE(
+    SUM(Sales[Amount]),
+    FILTER(
+        Customers,
+        Customers[LifetimeValue] > 10000
+    ),
+    Sales[Status] = "Completed"
+)
+
+// Dynamic Segmentation
+Customer_Segment = 
+VAR CustomerValue = SUM(Sales[Amount])
+RETURN
+    SWITCH(
+        TRUE(),
+        CustomerValue >= 10000, "Premium",
+        CustomerValue >= 5000, "Gold",
+        CustomerValue >= 1000, "Silver",
+        "Bronze"
+    )
 \`\`\`
 
-### ANOVA Analysis
-\`\`\`python
-import scipy.stats as stats
+#### Advanced Measures for Analytics
+\`\`\`dax
+// Cohort Analysis in DAX
+Cohort_Month = 
+VAR FirstPurchaseDate = 
+    CALCULATE(
+        MIN(Sales[Date]),
+        ALLEXCEPT(Sales, Sales[CustomerID])
+    )
+RETURN
+    FORMAT(FirstPurchaseDate, "YYYY-MM")
 
-# One-way ANOVA
-f_stat, p_value = stats.f_oneway(group1, group2, group3)
+Cohort_Period = 
+VAR FirstPurchase = 
+    CALCULATE(
+        MIN(Sales[Date]),
+        ALLEXCEPT(Sales, Sales[CustomerID])
+    )
+VAR CurrentDate = MIN(Sales[Date])
+RETURN
+    DATEDIFF(FirstPurchase, CurrentDate, MONTH)
 
-# Two-way ANOVA using statsmodels
-import statsmodels.api as sm
-from statsmodels.formula.api import ols
+// Customer Lifetime Value Prediction
+Predicted_CLV = 
+VAR AvgOrderValue = AVERAGE(Sales[Amount])
+VAR PurchaseFrequency = 
+    DIVIDE(
+        COUNT(Sales[SaleID]),
+        DISTINCTCOUNT(Sales[CustomerID])
+    )
+VAR CustomerLifespan = 24 // months
+RETURN
+    AvgOrderValue * PurchaseFrequency * CustomerLifespan
 
-model = ols('dependent_var ~ factor1 + factor2 + factor1:factor2', data=df).fit()
-anova_results = sm.stats.anova_lm(model, typ=2)
+// Advanced Ranking with Ties
+Dense_Rank_Products = 
+RANKX(
+    ALLSELECTED(Products[ProductName]),
+    SUM(Sales[Amount]),
+    ,
+    DESC,
+    DENSE
+)
 \`\`\`
 
-## Advanced Statistical Modeling
+### 6. Interactive Dashboard Design Principles
 
-### Regression Analysis
-\`\`\`python
-from sklearn.linear_model import LinearRegression
-from statsmodels.stats.diagnostic import het_breuschpagan
-import statsmodels.api as sm
+#### Advanced Visualization Techniques
+- **Conditional Formatting**: Use DAX to create dynamic color schemes
+- **Drill-through Pages**: Create detailed views for specific data points
+- **Bookmarks and Selection**: Build interactive story-telling experiences
+- **Custom Visuals**: Leverage marketplace or create R/Python visuals
 
-# Multiple linear regression
-X = df[['feature1', 'feature2', 'feature3']]
-y = df['target']
+#### Performance Optimization Strategies
+\`\`\`dax
+// Use variables to avoid recalculation
+Optimized_Measure = 
+VAR TotalSales = SUM(Sales[Amount])
+VAR TotalCosts = SUM(Sales[Cost])
+VAR Profit = TotalSales - TotalCosts
+VAR ProfitMargin = DIVIDE(Profit, TotalSales)
+RETURN
+    IF(TotalSales > 0, ProfitMargin, BLANK())
 
-# Using statsmodels for detailed statistics
-X_with_const = sm.add_constant(X)
-model = sm.OLS(y, X_with_const).fit()
-print(model.summary())
-
-# Diagnostic tests
-residuals = model.resid
-lm, lm_p_value, fvalue, f_p_value = het_breuschpagan(residuals, X_with_const)
+// Minimize use of calculated columns, prefer measures
+// Use SUMMARIZE instead of ADDCOLUMNS when possible
+// Implement proper data modeling with star schema
 \`\`\`
 
-## Practical Applications
-- A/B testing and experimental design
-- Quality control and process improvement
-- Market research and customer analysis
-- Scientific research validation
+## Integration Best Practices
 
-Statistical analysis provides the rigorous foundation needed for data-driven decision making in any domain.`,
-    date: "2024-03-15",
-    tags: ["Statistics", "Python", "Hypothesis Testing", "Data Analysis"],
-    readTime: "14 min read",
+### Cross-Platform Workflow
+1. **Excel**: Initial data exploration and quick prototyping
+2. **SQL**: Heavy data processing and complex transformations  
+3. **Python**: Statistical analysis and machine learning
+4. **Power BI**: Interactive dashboards and business reporting
+
+### Data Quality Framework
+- **Validation Rules**: Implement at each stage
+- **Error Handling**: Graceful degradation strategies
+- **Version Control**: Track changes across all platforms
+- **Documentation**: Maintain clear process documentation
+
+### Performance Optimization
+- **Excel**: Use structured references and avoid volatile functions
+- **SQL**: Implement proper indexing and query optimization
+- **Python**: Leverage vectorized operations and efficient libraries
+- **Power BI**: Optimize data model and use appropriate storage modes
+
+Mastering these techniques across all four platforms will make you a versatile and highly effective data analyst capable of handling any analytical challenge.`,
+    date: "2024-03-18",
+    tags: ["Excel", "SQL", "Power BI", "Python", "Data Analysis", "Techniques"],
+    readTime: "30 min read",
     category: "Data Analysis"
   },
   {

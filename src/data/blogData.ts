@@ -36,10 +36,10 @@ Excel remains one of the most accessible tools for initial data exploration and 
 
 **Excel Formulas for Data Quality Assessment:**
 \`\`\`excel
-// Check for duplicates
+Check for duplicates
 =COUNTIF(A:A, A2) > 1
 
-// Identify missing values
+Identify missing values
 =IF(ISBLANK(A2), "Missing", "Present")
 
 // Data type validation
